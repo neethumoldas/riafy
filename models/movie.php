@@ -39,5 +39,14 @@ class Movie {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function isMovieFavorite($user_id, $movie_id) {
+        $query = "SELECT * FROM favorite_movies WHERE user_id = :user_id AND movie_id = :movie_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id", $user_id);
+        $stmt->bindParam(":movie_id", $movie_id);
+        $stmt->execute();
+        return $stmt->rowCount() > 0; // Returns true if the movie exists
+    }
 }
 ?>

@@ -19,13 +19,21 @@ if (isset($_POST['add_favorite'])) {
     $movie_title = $_POST['movie_title'];
     $movie_id = $_POST['movie_id'];
     $poster_url = $_POST['poster_url'];
-    if ($movie->addFavorite($user_id, $movie_title, $movie_id, $poster_url)) {
-        echo "Movie added to favorites.";
+
+    // Call the new function from Movie model
+    if ($movie->isMovieFavorite($user_id, $movie_id)) {
+        echo json_encode(["status" => "error", "message" => "Movie already in favorites."]);
     } else {
-        echo "Error adding movie.";
+        if ($movie->addFavorite($user_id, $movie_title, $movie_id, $poster_url)) {
+            echo json_encode(["status" => "success", "message" => "Movie added to favorites."]);
+        } else {
+            echo json_encode(["status" => "error", "message" => "Error adding movie."]);
+        }
     }
     exit();
 }
+
+
 
 if (isset($_POST['remove_favorite'])) {
     $user_id = $_SESSION['user_id'];

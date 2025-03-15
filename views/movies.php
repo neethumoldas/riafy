@@ -16,19 +16,21 @@ include 'auth_check.php';
                     headers: { "Content-Type": "application/x-www-form-urlencoded" },
                     body: `add_favorite=1&movie_id=${id}&movie_title=${title}&poster_url=${poster}`
                 })
-                .then(response => response.text())
-                .then(message => {
+                .then(response => response.json()) // Parse JSON response properly
+                .then(data => {
+                    // Ensure we're accessing the message property correctly
                     let modalMessage = document.getElementById("modal-message");
-                    let modal = new bootstrap.Modal(document.getElementById("responseModal"));
+                    let responseModal = new bootstrap.Modal(document.getElementById("responseModal"));
 
-                    if (modalMessage) {
-                        modalMessage.innerText = message; // Insert message
-                        modal.show(); // Show the modal
-                    } else {
-                        console.error("Modal element not found!"); // Debugging log
-                    }
+                    // Set only the message text from JSON response
+                    modalMessage.innerText = data.message;
+                    modalMessage.style.color = data.status === "success" ? "green" : "red"; // Green for success, red for error
+
+                    responseModal.show(); // Show the modal
                 })
-                .catch(error => console.error("Error:", error));
+                .catch(error => {
+                    console.error("Error:", error);
+                });
             }
 
             // Attach function to the global window object so it can be called inline in HTML
@@ -111,13 +113,25 @@ include 'auth_check.php';
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `add_favorite=1&movie_id=${id}&movie_title=${title}&poster_url=${poster}`
             })
-            .then(response => response.text())
-            .then(message => {
-                document.getElementById("modal-message").innerText = message; // Insert message into modal
-                let modal = new bootstrap.Modal(document.getElementById("responseModal")); 
-                modal.show(); // Show the modal
+            .then(response => response.json()) // Parse JSON response properly
+            .then(data => {
+                // Ensure we're accessing the message property correctly
+                let modalMessage = document.getElementById("modal-message");
+                let responseModal = new bootstrap.Modal(document.getElementById("responseModal"));
+
+                // Set only the message text from JSON response
+                modalMessage.innerText = data.message;
+                modalMessage.style.color = data.status === "success" ? "green" : "red"; // Green for success, red for error
+
+                responseModal.show(); // Show the modal
+            })
+            .catch(error => {
+                console.error("Error:", error);
             });
         }
+
+
+
 
     </script>
 </head>
