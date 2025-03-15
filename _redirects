@@ -1,0 +1,22 @@
+# Redirect all requests to index.php (like .htaccess RewriteRule)
+# Useful for handling routes dynamically
+/*    /index.php    200
+
+# Redirect old URLs to new ones (Example)
+# /old-route  /new-route  301
+
+# API redirects (Modify as needed)
+# /api/*   /controllers/MovieController.php   200
+
+# Force HTTPS (if needed)
+https://example.com/*  https://www.example.com/:splat 301!
+
+# Handle 404 errors with a custom page
+/404.html    404
+
+# Login & Registration
+/login    /views/login.php   200
+/register /views/register.php   200
+
+# Favorites Page
+/favorites  /views/favorites.php  200
